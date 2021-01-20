@@ -4,9 +4,8 @@ const fs = require('fs');
 const util = require('util');
 
 const writeFileAsync = util.promisify(fs.writeFile);
-// TODO: Create an array of questions for user input
-// const questions = [];
 
+// TODO: Create an array of questions for user input
 function promptUser(){
    return inquirer.prompt([
         {
@@ -88,7 +87,7 @@ ${response.contributing}
 
 To run tests, run the following command:
         
-${response.tests} 
+    ${response.tests} 
         
 ## Questions
 
@@ -97,11 +96,18 @@ If you have any questions about the repo, open an issue or contact me directly a
  }
 
 
-// TODO: Create a function to write README file
-// function writeToFile(fileName, data) { }
-
 // TODO: Create a function to initialize app
 async function init() { 
+    try {
+        const response = await promptUser();
+        const readMe = generateMarkdown(response);
+
+        writeFileAsync("GENERATED.md", readMe);
+        console.log("Generating README.md file");
+    } catch (err){
+        console.log(err)
+    }
 }
+
 // Function call to initialize app
 init();
