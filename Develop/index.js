@@ -2,8 +2,6 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 const util = require('util');
-const generateMarkdown = require('/generateMarkdown.js')
-
 
 const writeFileAsync = util.promisify(fs.writeFile);
 // TODO: Create an array of questions for user input
@@ -31,7 +29,7 @@ function promptUser(){
             type: 'list',
             name: 'license',
             message: 'What kind of license should your project have?(Use arrow keys)',
-            choices: ['MIT', 'Apache 2.0', 'GPL3.0', 'BSD 3', 'None']
+            choices: ['MIT', 'Apache-2.0', 'GPL3.0', 'BSD 3']
         }, {
             type: 'input',
             name: 'command',
@@ -52,54 +50,58 @@ function promptUser(){
     ]);
 }
 
-    function generateMarkdown(response){
-        return ` 
-        # ${response.projectName}
 
-        ## Description
-        ${response.description}
+function generateMarkdown(response){
+        return `# ${response.projectName}
 
-        ## Table of Contents
+![Github license](https://img.shields.io/badge/license-${response.license}-blue.svg)
+
+## Description
+${response.description}
+
+## Table of Contents
         
-        -[Installation](#installation)
-        -[Usage](#usage)
-        -[License](#license)
-        -[Contributing](#test)
-        -[Tests](#tests)
-        -[Questions](#questions)
+[Installation](#installation)<br>
+[Usage](#usage)<br>
+[License](#license)<br>
+[Contributing](#test)<br>
+[Tests](#tests)<br>
+[Questions](#questions)<br>
 
-        ## Installation
+## Installation
 
-        To install necessary dependencies run the following command: 
-        `
-        ``` ${response.command} ``` 
-        `
+To install necessary dependencies run the following command: 
+        
+    ${response.command} 
+        
        
-        ## Usage
-        ${response.using}
+## Usage
+${response.using}
 
-        ## Tests
+## License
+This project is licensed under the ${response.license} license
 
-        To run tests, run the following command:
-        `
-        ``` ${response.tests} ```
-        `
-        ## Questions
+## Contributing
+${response.contributing}
 
-        If you have any questions about the repo, open an issue or contact me directly at ${response.email}. You can find more of my work at [${response.username}](https:github.com/${response.username}/).
-        `
-    }
+## Tests
 
+To run tests, run the following command:
+        
+${response.tests} 
+        
+## Questions
 
+If you have any questions about the repo, open an issue or contact me directly at ${response.email}. You can find more of my work at [${response.username}](https:github.com/${response.username}/).
+`;
+ }
 
 
 // TODO: Create a function to write README file
 // function writeToFile(fileName, data) { }
 
 // TODO: Create a function to initialize app
-function init() { 
-
+async function init() { 
 }
-
 // Function call to initialize app
 init();
